@@ -75,6 +75,16 @@ void DynamicArray::append(int value) {
     //..............
     // TODO
     //..............
+    if(m_capacity<= m_length+1){
+        m_capacity = (m_capacity*m_scaling_factor);
+         int *curr = new int[m_capacity];
+        for(unsigned int i = 0; i < m_length;i++){
+            curr[i]= m_data[i];
+        }
+        //m_data = curr;
+    }else{
+        m_data[m_length] = value;
+    }
 }
 
 void DynamicArray::prepend(int value) {
