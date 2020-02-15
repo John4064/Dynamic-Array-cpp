@@ -5,17 +5,15 @@ DynamicArray::DynamicArray()
     : m_length(0), m_capacity(0), m_scaling_factor(2.0), m_data(nullptr) {
 }
 
-DynamicArray::DynamicArray(double scaling_factor, unsigned int capacity) {
-    //..............
-    // TODO
-    //..............
+DynamicArray::DynamicArray(double scaling_factor, unsigned int capacity): m_length(0), m_capacity(capacity),m_scaling_factor(scaling_factor),  m_data(nullptr)  {
+    //Check this one later Not 100% sure if done right
 }
 
 
-DynamicArray::DynamicArray(double scaling_factor, unsigned int length, int default_value) {
-    //..............
-    // TODO
-    //..............
+DynamicArray::DynamicArray(double scaling_factor, unsigned int length, int default_value): m_length(length), m_capacity(length*scaling_factor), m_scaling_factor(scaling_factor) {
+    for(unsigned int i = 0;i<m_length;i++){
+        m_data[i] = default_value;
+    }
 }
 
 DynamicArray::DynamicArray(const DynamicArray& other) {
@@ -72,9 +70,7 @@ bool DynamicArray::findLastOf(int value, unsigned int *index) {
 }
 
 void DynamicArray::append(int value) {
-    //..............
-    // TODO
-    //..............
+    //Works When tested was able to add to the array properly
     if(m_capacity<= m_length+1){
         m_capacity = (m_capacity*m_scaling_factor);
          int *curr = new int[m_capacity];
