@@ -100,6 +100,33 @@ void DynamicArray::prepend(int value) {
     //..............
     // TODO
     //..............
+    if(m_capacity<= m_length+1){
+        //Scaling factor on github says is always greater than 1 but on the test code its .5?
+        if(m_scaling_factor>1){
+            m_capacity = (m_capacity*m_scaling_factor);
+        }else{
+            m_capacity = (m_capacity+m_capacity*m_scaling_factor);
+        }
+        int *curr = new int[m_capacity];
+        curr[0] = value;//ADDING THE NEW VALUE
+        m_length++;//Accounting for new value
+        for(unsigned int i = 1; i < m_length;i++){
+            curr[i]= m_data[i];
+        }
+        //Setting the array to the new one
+        m_data = curr;
+        //delete[] curr; this breaks the code Gotta figure out why
+    }else{
+        int *curr = new int[m_capacity];
+        m_length++;//Accounting for new value
+        curr[0] = value;//ADDING THE NEW VALUE
+        for(unsigned int i = 1; i < m_length;i++){//Readding all the values
+            curr[i]= m_data[i];
+        }
+        m_data = curr;
+        //delete[] curr; this breaks the code Gotta figure out why
+    }
+    return;
 }
 
 void DynamicArray::removeLast() {
