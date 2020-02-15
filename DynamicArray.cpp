@@ -78,7 +78,6 @@ void DynamicArray::append(int value) {
         }else{
             m_capacity = (m_capacity+m_capacity*m_scaling_factor);
         }
-
         int *curr = new int[m_capacity];
          //Transfers over all the old elements
         for(unsigned int i = 0; i < m_length;i++){
@@ -89,7 +88,7 @@ void DynamicArray::append(int value) {
         //Set The old arr to the new array
         m_data = curr;
         //delete the temporary array
-        delete[] curr;
+        //delete[] curr; This breaks the code
     }else{
         m_data[m_length] = value;
         m_length++;
@@ -106,7 +105,7 @@ void DynamicArray::prepend(int value) {
 void DynamicArray::removeLast() {
     //In Progress
 
-    m_data[m_length] = NULL;
+    m_data[m_length-1] = NULL;
     m_length = m_length-1;
 }
 
