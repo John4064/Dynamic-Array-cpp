@@ -70,21 +70,31 @@ bool DynamicArray::findLastOf(int value, unsigned int *index) {
 }
 
 void DynamicArray::append(int value) {
-    //Works When tested was able to add to the array properly
+    //Works When tested was able to add to the array properly Then Randomly a segmentations fault
+    //Checks if an addition of element will exceed capacity
     if(m_capacity<= m_length+1){
-        m_capacity = (m_capacity*m_scaling_factor);
-         int *curr = new int[m_capacity];
+        if(m_scaling_factor>1){
+            m_capacity = (m_capacity*m_scaling_factor);
+        }else{
+            m_capacity = (m_capacity+m_capacity*m_scaling_factor);
+        }
+
+        int *curr = new int[m_capacity];
+         //Transfers over all the old elements
         for(unsigned int i = 0; i < m_length;i++){
             curr[i]= m_data[i];
         }
         curr[m_length] = value;
         m_length++;
+        //Set The old arr to the new array
         m_data = curr;
+        //delete the temporary array
         delete[] curr;
     }else{
         m_data[m_length] = value;
         m_length++;
     }
+    return;
 }
 
 void DynamicArray::prepend(int value) {
@@ -94,10 +104,10 @@ void DynamicArray::prepend(int value) {
 }
 
 void DynamicArray::removeLast() {
-    //..............
-    int max = getLength();
-    // TODO
-    //..............
+    //In Progress
+
+    m_data[m_length] = NULL;
+    m_length = m_length-1;
 }
 
 void DynamicArray::removeFirst() {
@@ -107,9 +117,13 @@ void DynamicArray::removeFirst() {
 }
 
 void DynamicArray::clear() {
-    //..............
-    // TODO
-    //..............
+    //IN Progress
+
+    for(unsigned int i = 0;i<m_length;i++){
+        m_data[i] = NULL;
+    }
+    m_length =0;
+    m_capacity = 0;
 }
 
 int& DynamicArray::operator[](unsigned int index) {
