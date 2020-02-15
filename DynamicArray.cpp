@@ -81,6 +81,7 @@ void DynamicArray::append(int value) {
         for(unsigned int i = 0; i < m_length;i++){
             curr[i]= m_data[i];
         }
+        curr[m_length] = value;
         m_length++;
         m_data = curr;
         delete[] curr;
