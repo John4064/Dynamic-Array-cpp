@@ -58,6 +58,13 @@ bool DynamicArray::findFirstOf(int value, unsigned int *index) {
     //..............
     // TODO
     //..............
+    for ( int i = 0; i < m_lenght; i++){
+        if(m_data[i] == value;){
+            found = true;
+            *index = i;
+            break;
+        }
+    }
     return found;
 }
 
@@ -66,6 +73,14 @@ bool DynamicArray::findLastOf(int value, unsigned int *index) {
     //..............
     // TODO
     //..............
+    for ( int i = m_lenght-1; i >= 0; i--){
+        if(m_data[i] == value;){
+            found = true;
+            *index = i;
+            break;
+        }
+    }
+    
     return found;
 }
 
@@ -137,6 +152,11 @@ void DynamicArray::removeLast() {
 }
 
 void DynamicArray::removeFirst() {
+    for (int i = 0; i< m_length; i++){
+        m_date[i]= m_data[i-1];
+        m_data[m_lenght-1]= NULL;
+        m_lenght = m_length-1;
+    }    
     //..............
     // TODO
     //..............
