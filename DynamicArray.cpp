@@ -56,7 +56,7 @@ std::string DynamicArray::toString() {
 bool DynamicArray::findFirstOf(int value, unsigned int *index) {
     bool found = false;
 
-    for ( unsigned int i = 0; i < m_length; i++){
+    for (unsigned int i = 0; i < m_length; i++){
         if(m_data[i] == value){
             found = true;
             *index = i;
@@ -73,7 +73,7 @@ bool DynamicArray::findFirstOf(int value, unsigned int *index) {
 bool DynamicArray::findLastOf(int value, unsigned int *index) {
     bool found = false;
 
-    for ( unsigned  int i = m_length-1; i >= 0; i--){
+    for (unsigned  int i = m_length-1; i >= 0; i--){
         if(m_data[i] == value){
             found = true;
             *index = i;
@@ -157,11 +157,19 @@ void DynamicArray::removeFirst() {
     //..............
     // TODO
     //..............
+    int *curr = new int[m_capacity];
+    for(unsigned int i = 1; i <m_length;i++){
+        curr[i]=m_data[i];
+    }
+    m_length--;
+    m_data = curr;
+    /*
     for (unsigned int i = 0; i< m_length; i++){
         m_data[i]= m_data[i-1];
         m_data[m_length-1]= NULL;
         m_length = m_length-1;
     }
+    */
 }
 
 void DynamicArray::clear() {
