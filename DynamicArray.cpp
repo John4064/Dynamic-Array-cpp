@@ -5,20 +5,33 @@ DynamicArray::DynamicArray()
     : m_length(0), m_capacity(0), m_scaling_factor(2.0), m_data(nullptr) {
 }
 
-DynamicArray::DynamicArray(double scaling_factor, unsigned int capacity): m_length(0), m_capacity(capacity),m_scaling_factor(scaling_factor),  m_data(nullptr)  {
-    //Check this one later Not 100% sure if done right
+DynamicArray::DynamicArray(double scaling_factor, unsigned int capacity) {
+    m_scaling_factor = scaling_factor;
+    m_capacity = capacity;
+    m_length = capacity;
+    m_data = new int[m_capacity];
+    //..............
+    // TODO
+    //..............
 }
 
 
-DynamicArray::DynamicArray(double scaling_factor, unsigned int length, int default_value): m_length(length), m_capacity(length*scaling_factor), m_scaling_factor(scaling_factor) {
-    for(unsigned int i = 0;i<m_length;i++){
+DynamicArray::DynamicArray(double scaling_factor, unsigned int length, int default_value) {
+    m_scaling_factor = scaling_factor;
+    m_length = length;
+    m_capacity = m_length;
+    m_data = new int[m_capacity];
+    for( unsigned int i = 0; i < m_length; i ++){
         m_data[i] = default_value;
     }
+    //..............
+    // TODO
+    //..............
 }
 
 DynamicArray::DynamicArray(const DynamicArray& other) {
     // use the assignment operator
-    (*this) = other;
+    (*this) = other; 
 }
 
 DynamicArray::~DynamicArray() {
@@ -55,15 +68,13 @@ std::string DynamicArray::toString() {
 
 bool DynamicArray::findFirstOf(int value, unsigned int *index) {
     bool found = false;
-
-    for (unsigned int i = 0; i < m_length; i++){
-        if(m_data[i] == value){
+    for ( unsigned int i = 0; i < m_length; i++){
+        if(m_data[i] == value ){
             found = true;
-            *index = i;
+            *index = i+1;
             break;
         }
     }
-
     //..............
     // TODO
     //..............
@@ -72,11 +83,10 @@ bool DynamicArray::findFirstOf(int value, unsigned int *index) {
 
 bool DynamicArray::findLastOf(int value, unsigned int *index) {
     bool found = false;
-
-    for (unsigned  int i = m_length-1; i >= 0; i--){
-        if(m_data[i] == value){
+    for ( unsigned int i = m_length - 1; i >=0; i--){
+        if(m_data[i] == value ){
             found = true;
-            *index = i;
+            *index = i+1;
             break;
         }
     }
@@ -103,14 +113,19 @@ void DynamicArray::append(int value) {
         curr[m_length] = value;
         m_length++;
         //Set The old arr to the new array
+        delete[] m_data;
         m_data = curr;
         //delete the temporary array
-        //delete[] curr; This breaks the code
+        //delete [] curr; This breaks the code
     }else{
         m_data[m_length] = value;
         m_length++;
     }
     return;
+
+    //..............
+    // TODO
+    //..............
 }
 
 void DynamicArray::prepend(int value) {
@@ -128,9 +143,10 @@ void DynamicArray::prepend(int value) {
         curr[0] = value;//ADDING THE NEW VALUE
         m_length++;//Accounting for new value
         for(unsigned int i = 1; i < m_length;i++){
-            curr[i]= m_data[i];
+            curr[i]= m_data[i-1];
         }
         //Setting the array to the new one
+        delete [] m_data;
         m_data = curr;
         //delete[] curr; this breaks the code Gotta figure out why
     }else{
@@ -138,8 +154,9 @@ void DynamicArray::prepend(int value) {
         m_length++;//Accounting for new value
         curr[0] = value;//ADDING THE NEW VALUE
         for(unsigned int i = 1; i < m_length;i++){//Readding all the values
-            curr[i]= m_data[i];
+            curr[i]= m_data[i-1];
         }
+        delete[] m_data;
         m_data = curr;
         //delete[] curr; this breaks the code Gotta figure out why
     }
@@ -148,9 +165,14 @@ void DynamicArray::prepend(int value) {
 
 void DynamicArray::removeLast() {
     //In Progress
-
-    m_data[m_length-1] = NULL;
-    m_length = m_length-1;
+    int *curr = new int[m_capacity];
+    m_length--;
+    for (unsigned int i = 0; i< m_length; i++){
+        curr[i]=m_data[i];
+    }
+    delete[] m_data;
+    m_data = curr;
+    return;
 }
 
 void DynamicArray::removeFirst() {
@@ -159,33 +181,28 @@ void DynamicArray::removeFirst() {
     //..............
     int *curr = new int[m_capacity];
     for(unsigned int i = 1; i <m_length;i++){
-        curr[i]=m_data[i];
+        curr[i-1]=m_data[i];
     }
-    m_length--;
+    delete[] m_data;
     m_data = curr;
-    /*
-    for (unsigned int i = 0; i< m_length; i++){
-        m_data[i]= m_data[i-1];
-        m_data[m_length-1]= NULL;
-        m_length = m_length-1;
-    }
-    */
+    m_length--;
+    return;
 }
 
 void DynamicArray::clear() {
     //IN Progress
-
-    for(unsigned int i = 0;i<m_length;i++){
-        m_data[i] = NULL;
-    }
+    delete[] m_data;
+    m_data = nullptr;
     m_length =0;
     m_capacity = 0;
+    //..............
+    // TODO
+    //..............
 }
 
 int& DynamicArray::operator[](unsigned int index) {
     return m_data[index];
 }
-
 DynamicArray& DynamicArray::operator=(const DynamicArray &other) {
     m_length = other.m_length;
     m_capacity = other.m_capacity;
